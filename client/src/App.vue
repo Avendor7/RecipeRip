@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-
+import axios from "axios";
 // Reactive file reference
 const file = ref<File | null>(null);
 
@@ -52,19 +52,21 @@ const submit = async () => {
     formData.append("file", file.value);
 
     try {
-        // Perform the POST request to upload the file
-        const response = await $fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-        });
-
-        // Handle response (e.g., display the uploaded file or message to the user)
-        console.log("File uploaded successfully:", response);
-        alert("File uploaded successfully!");
+        const response = await axios.post(
+            "http://localhost:3001/upload",
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            },
+        );
+        console.log(response.data); // Handle successful upload response
     } catch (error) {
-        console.error("File upload failed:", error);
-        alert("Failed to upload file.");
+        console.error(error); // Handle upload errors
     }
+
+    // Handle response (e.g., display the uploaded file or message to the user)
 };
 </script>
 
