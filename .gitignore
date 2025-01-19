@@ -1,0 +1,28 @@
+# Node.js and Express (server directory)
+server/node_modules/
+server/dist/
+server/.env
+server/logs/
+server/*.log
+
+# Vue 3 (client directory)
+client/node_modules/
+client/dist/
+client/.env.*
+client/.output/
+client/.vite/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEA project files
+.idea/
+
+# Other environment files
+.env
