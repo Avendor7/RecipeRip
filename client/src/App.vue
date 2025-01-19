@@ -1,17 +1,11 @@
 <template>
-  <header>
+    <header></header>
 
-  </header>
-
-  <main>
+    <main>
         <h1>Hello World</h1>
-  </main>
+    </main>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
