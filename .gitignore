@@ -4,7 +4,7 @@ server/dist/
 server/.env
 server/logs/
 server/*.log
-
+server/uploads
 # Vue 3 (client directory)
 client/node_modules/
 client/dist/
