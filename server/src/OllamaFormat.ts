@@ -1,7 +1,7 @@
 import ollama from 'ollama';
 import fs from 'fs';
 
-export default async function readAndProcessFile() {
+export default async function readAndProcessFile(file: Express.Multer.File | undefined) {
   try {
     let text = await fs.promises.readFile('output.wav.txt', 'utf8');
     let messageString = 'format the cooking recipe from the following tik tok video transcription text. ' + text;

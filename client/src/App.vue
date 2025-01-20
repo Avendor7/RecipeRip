@@ -53,7 +53,7 @@ const submit = async () => {
 
     try {
         const response = await axios.post(
-            "http://localhost:3001/upload",
+            "http://localhost:3000/upload",
             formData,
             {
                 headers: {
