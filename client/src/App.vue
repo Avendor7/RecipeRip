@@ -25,6 +25,7 @@
         >
             Submit
         </button>
+        <p>{{recipe}}</p>
     </div>
 </template>
 
@@ -39,7 +40,7 @@ const handleFileInput = (event: Event) => {
     const target = event.target as HTMLInputElement;
     file.value = target.files?.[0] || null; // Get the first selected file, or set to null if no file selected
 };
-
+const recipe = ref<string>("");
 // Submit method
 const submit = async () => {
     if (!file.value) {
@@ -61,7 +62,8 @@ const submit = async () => {
                 },
             },
         );
-        console.log(response.data); // Handle successful upload response
+        console.log(response.data.data); // Handle successful upload response
+        recipe.value = response.data.data;
     } catch (error) {
         console.error(error); // Handle upload errors
     }
