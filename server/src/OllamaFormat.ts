@@ -11,7 +11,7 @@ export default async function readAndProcessFile(convertedTextFilePath: string):
     let messageString = 'format the cooking recipe from the following tik tok video transcription text. ' + text;
     console.log(messageString);
     const response = await ollama.chat({
-      model: 'llama3.1:8b',
+      model: 'llama3.2:1b',
       messages: [{ role: 'user', content: messageString }],
     });
     console.log(response.message.content);
