@@ -20,6 +20,8 @@ app.use(express.json()); // Enable parsing JSON requests
 
 // Define a port from .env or use a default value
 const PORT: number = parseInt(process.env.PORT || '3000', 10);
+// Save the root directory at application start
+const PROJECT_ROOT = process.cwd();
 
 // Define a simple route
 app.get('/', (req: Request, res: Response): void => {
@@ -45,7 +47,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   try {
     console.log('File uploaded:', req.file);
 
-    const convertedTextFilePath = convert(req.file?.path);
+    const convertedTextFilePath = convert(req.file?.path, PROJECT_ROOT);
 
     convertedTextFilePath.then((text: string) => {
 

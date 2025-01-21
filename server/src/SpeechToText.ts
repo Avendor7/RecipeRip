@@ -6,7 +6,7 @@ import fs from 'fs';
 //
 // // Need to provide exact path to your audio file.
 // console.log(filePath);
-export default async function convert(filePath: string | undefined): Promise<string> {
+export default async function convert(filePath: string | undefined, projectRoot: string): Promise<string> {
   try {
     if (!filePath) {return ""}
     //console.log(filePath);
@@ -22,10 +22,20 @@ export default async function convert(filePath: string | undefined): Promise<str
       },
     })
 
-    console.log(file);
-    return "/uploads/" + path.basename(file, ".mp4") + ".wav.txt";
+    // Reset CWD back to project root
+    process.chdir(projectRoot);
+
+    return replaceFileExtension(filePath, ".wav.txt");
+    //return "/uploads/" + path.basename(file, ".mp4") + ".wav.txt";
   } catch (exc) {
     console.error(exc)
     process.exit(1)
   }
+}
+// Function to replace file extension
+function replaceFileExtension(filePath: string, newExt: string): string {
+  const parsedPath = path.parse(filePath);
+  parsedPath.ext = newExt; // Set new extension
+  parsedPath.base = parsedPath.name + newExt; // Update base
+  return path.format(parsedPath); // Reconstruct path
 }
