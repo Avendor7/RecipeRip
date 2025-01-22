@@ -8,7 +8,8 @@ export default async function readAndProcessFile(convertedTextFilePath: string):
     const filepath = path.resolve('',convertedTextFilePath);
     console.log(filepath);
     let text = await fs.promises.readFile(filepath, 'utf8');
-    let messageString = 'format the cooking recipe from the following tik tok video transcription text. ' + text;
+    let messageString = 'The following text is a transcription from a Tik Tok video that shows how to cook something. ' +
+      'Take this text and format it like it would appear in a cookbook or website. The output should be Markdown formatted' + text;
     console.log(messageString);
     const response = await ollama.chat({
       model: 'llama3.2:1b',
