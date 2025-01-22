@@ -40,6 +40,7 @@
                 v-html="sanitizedMarkdown"
                 class="prose max-w-screen-md mt-4 p-4 bg-gray-100 rounded"
             ></div>
+            <div v-else-if="loading">Loading</div>
         </div>
     </div>
 </template>
@@ -53,6 +54,7 @@ import DOMPurify from "dompurify";
 // Reactive file reference
 const file = ref<File | null>(null);
 const videoSrc = ref<string | null>(null);
+const loading = ref<boolean>(false);
 // Handle file input
 const handleFileInput = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -73,6 +75,7 @@ const submit = async () => {
     formData.append("file", file.value);
 
     try {
+        loading.value = true;
         const response = await axios.post(
             "http://localhost:3000/upload",
             formData,
@@ -84,6 +87,7 @@ const submit = async () => {
         );
         console.log(response.data.data); // Handle successful upload response
         recipe.value = response.data.data;
+        loading.value = false;
     } catch (error) {
         console.error(error); // Handle upload errors
     }
