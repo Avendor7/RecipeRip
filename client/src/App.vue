@@ -85,14 +85,12 @@ const submit = async () => {
                 },
             },
         );
-        console.log(response.data.data); // Handle successful upload response
+        console.log(response.data.data);
         recipe.value = response.data.data;
         loading.value = false;
     } catch (error) {
-        console.error(error); // Handle upload errors
+        console.error(error);
     }
-
-    // Handle response (e.g., display the uploaded file or message to the user)
 };
 
 // Compute sanitized Markdown for safe rendering
