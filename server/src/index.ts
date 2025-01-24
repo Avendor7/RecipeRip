@@ -4,9 +4,8 @@ import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
-import readAndProcessFile from './OllamaFormat.js';
-import convert from './SpeechToText.js';
 import fs from 'fs';
+import { videoProcessQueue } from './queue.js';
 
 // Load environment variables
 dotenv.config();
@@ -43,35 +42,30 @@ const storage = multer.diskStorage({
 
 // Create the multer upload object with the custom storage configuration
 const upload = multer({ storage });
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     console.log('File uploaded:', req.file);
 
-    const convertedTextFilePath = convert(req.file?.path, PROJECT_ROOT);
-
-    convertedTextFilePath.then((text: string) => {
-
-      const ollamaFormattedText = readAndProcessFile(text);
-
-      ollamaFormattedText.then((result: string) => {
-
-        // Send success response
-        res.status(200).json({
-          message: 'File uploaded successfully',
-          file: req.file?.path, // File info (includes path, original name, size, etc.)
-          data: result,
-        });
-
-      });
+    // Add a job to the queue (videoProcessQueue)
+    await videoProcessQueue.add('convert-and-process', {
+      filePath: req.file?.path,  // Path of the uploaded file
+      projectRoot: PROJECT_ROOT // Project directory
     });
 
-
-
+    // Respond to the client with success message
+    res.status(200).json({
+      message: 'Job added to the Video Processing Queue successfully',
+      file: req.file?.path,
+    });
   } catch (error) {
-    console.error('Error uploading file:', error);
-    res.status(500).json({ error: 'Error uploading file' });
+    console.error('Error adding job to queue:', error);
+
+    res.status(500).json({
+      error: 'An error occurred while adding the job to the queue'
+    });
   }
 });
+
 
 // Start the server
 app.listen(PORT, (): void => {
