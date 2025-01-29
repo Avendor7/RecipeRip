@@ -7,36 +7,30 @@ import multer from 'multer';
 import fs from 'fs';
 import { videoProcessQueue } from './queue.js';
 
-// Load environment variables
 dotenv.config();
 
-// Initialize the app
 const app = express();
 
-// Middleware
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Enable parsing JSON requests
+app.use(cors());
+app.use(express.json());
 
-// Define a port from .env or use a default value
 const PORT: number = parseInt(process.env.PORT || '3000', 10);
-// Save the root directory at application start
 const PROJECT_ROOT = process.cwd();
 
-// Define a simple route
 app.get('/', (req: Request, res: Response): void => {
   res.send('Hello World!');
 });
 
 // Configure storage to include the original file extension
 const storage = multer.diskStorage({
-  destination: 'uploads/', // Directory to save files
-  filename: (req, file, cb) => {
+  destination: 'uploads/',
+  filename: (req, file, callback) => {
     // Extract the original file extension
     const ext = path.extname(file.originalname);
     // Construct the new filename
     const fileName = `${file.fieldname}-${Date.now()}${ext}`;
     // Save the file with the new name
-    cb(null, fileName);
+    callback(null, fileName);
   },
 });
 
@@ -67,18 +61,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 
-// Start the server
 app.listen(PORT, (): void => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-
-function fileExists(filePath:any, callback:any) {
-  fs.access(filePath, (err) => {
-    callback(!err); // If no error, file exists
-  });
-}
 
 
 
