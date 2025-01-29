@@ -42,11 +42,19 @@
             ></div>
             <div v-else-if="loading">Loading</div>
         </div>
+        <div class="mt-8">
+            <h2>Server Messages:</h2>
+            <ul>
+                <li v-for="(msg, index) in messages" :key="index">
+                    {{ msg }}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import axios from "axios";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
@@ -62,6 +70,9 @@ const handleFileInput = (event: Event) => {
     videoSrc.value = URL.createObjectURL(file.value!);
 };
 const recipe = ref<string>("");
+
+const messages = ref<string[]>([]);
+let eventSource: EventSource | null = null;
 
 // Submit method
 const submit = async () => {
@@ -100,6 +111,36 @@ const sanitizedMarkdown = computed(() => {
         return DOMPurify.sanitize(parsedMarkdown);
     }
     return "";
+});
+
+onMounted(() => {
+    // Create an EventSource that connects to the SSE endpoint
+    eventSource = new EventSource("http://localhost:3000/events");
+
+    // Listen for messages
+    eventSource.onmessage = (event: MessageEvent) => {
+        try {
+            // Parse JSON data sent by server
+            const parsedData = JSON.parse(event.data);
+            messages.value.push(
+                `Job ${parsedData.jobId} completed: ${JSON.stringify(parsedData.result)}`,
+            );
+        } catch (error) {
+            console.error("Failed to parse SSE data.", error);
+        }
+    };
+
+    // Handle any possible errors
+    eventSource.onerror = (error) => {
+        console.error("SSE error:", error);
+    };
+});
+
+onBeforeUnmount(() => {
+    // Close the connection when the component is unmounted
+    if (eventSource) {
+        eventSource.close();
+    }
 });
 </script>
 
