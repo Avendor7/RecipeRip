@@ -4,7 +4,6 @@ import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import multer from 'multer';
-import fs from 'fs';
 import { videoProcessQueue } from './queue.js';
 import { QueueEvents } from 'bullmq';
 
@@ -73,18 +72,33 @@ app.get('/events', (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
 
-  // You might also want to send a comment to keep the connection alive
+  // (Optional) Send a comment to keep the connection alive
   res.write(':\n\n');
 
-  // When a job completes on the queue, send an SSE message
-  videoProcessEvents.on('completed', (jobId, returnValue) => {
-    // You can structure these messages as desired
-    const data = JSON.stringify({ jobId, result: returnValue });
-    // The SSE format requires "data:" prefix and a double newline
-    res.write(`data: ${data}\n\n`);
+  // Listen for completion events on the queue
+  videoProcessEvents.on('completed', async (jobId, returnValue) => {
+    try {
+      // Here, we assume that the worker sets the result of the Ollama convert in `returnValue`
+      const data = {
+        jobId,
+        // Include the actual result from returnValue
+        // (rename `ollamaResult` or add properties as applicable)
+        ollamaResult: returnValue,
+      };
+
+      // Send the data to the client
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    } catch (error) {
+      // If something goes wrong, you can optionally send an error message
+      const errData = {
+        jobId,
+        error: 'An error occurred while retrieving job data.',
+      };
+      res.write(`data: ${JSON.stringify(errData)}\n\n`);
+    }
   });
 
-  // If connection is closed by the client, stop sending events
+  // When the client closes the connection, stop sending events
   req.on('close', () => {
     console.log('Client disconnected from SSE');
   });

@@ -123,7 +123,7 @@ onMounted(() => {
             // Parse JSON data sent by server
             const parsedData = JSON.parse(event.data);
             messages.value.push(
-                `Job ${parsedData.jobId} completed: ${JSON.stringify(parsedData.result)}`,
+                `Job ${parsedData.jobId} completed: ${JSON.stringify(parsedData)}`,
             );
         } catch (error) {
             console.error("Failed to parse SSE data.", error);
