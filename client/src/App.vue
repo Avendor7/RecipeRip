@@ -74,14 +74,12 @@ const recipe = ref<string>("");
 const messages = ref<string[]>([]);
 let eventSource: EventSource | null = null;
 
-// Submit method
 const submit = async () => {
     if (!file.value) {
         alert("No file selected!");
         return;
     }
 
-    // Prepare the FormData object
     const formData = new FormData();
     formData.append("file", file.value);
 
@@ -114,13 +112,11 @@ const sanitizedMarkdown = computed(() => {
 });
 
 onMounted(() => {
-    // Create an EventSource that connects to the SSE endpoint
+    //create an event source for SSE.
     eventSource = new EventSource("http://localhost:3000/events");
 
-    // Listen for messages
     eventSource.onmessage = (event: MessageEvent) => {
         try {
-            // Parse JSON data sent by server
             const parsedData = JSON.parse(event.data);
             messages.value.push(
                 `Job ${parsedData.jobId} completed: ${JSON.stringify(parsedData)}`,
@@ -130,7 +126,6 @@ onMounted(() => {
         }
     };
 
-    // Handle any possible errors
     eventSource.onerror = (error) => {
         console.error("SSE error:", error);
     };

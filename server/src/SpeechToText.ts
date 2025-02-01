@@ -15,7 +15,6 @@ export default async function convert(filePath: string | undefined, projectRoot:
         outputInVtt: false,
         outputInText: true,
         splitOnWord: false,
-        // Default is 20 which is too long
       },
     })
 
@@ -28,6 +27,7 @@ export default async function convert(filePath: string | undefined, projectRoot:
     process.exit(1)
   }
 }
+
 // Function to replace file extension
 function replaceFileExtension(filePath: string, newExt: string): string {
   const parsedPath = path.parse(filePath);
