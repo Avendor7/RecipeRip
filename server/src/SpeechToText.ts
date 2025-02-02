@@ -4,7 +4,7 @@ import {nodewhisper} from "nodejs-whisper";
 export default async function convert(filePath: string | undefined, projectRoot: string): Promise<string> {
   try {
 
-    if (!filePath) {return ""}
+    if (!filePath) {return ""} //TODO: better error handling here
 
     const file = path.resolve('', filePath)
 
@@ -28,7 +28,6 @@ export default async function convert(filePath: string | undefined, projectRoot:
   }
 }
 
-// Function to replace file extension
 function replaceFileExtension(filePath: string, newExt: string): string {
   const parsedPath = path.parse(filePath);
   parsedPath.ext = newExt; // Set new extension

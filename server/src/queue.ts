@@ -19,6 +19,7 @@ const videoProcessWorker = new Worker('videoProcessQueue', async (job) => {
     const formattedText = await readAndProcessFile(convertedTextFilePath);
 
     console.log(`Job completed successfully - Result: ${formattedText}`);
+
     return formattedText;
   } catch (err) {
     console.error('Error processing job:', err);

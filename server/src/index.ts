@@ -60,8 +60,7 @@ app.get('/events', (req: Request, res: Response) => {
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
 
-  res.write(':\n\n');
-
+  //event for when the video processing completes
   videoProcessEvents.on('completed', async (jobId, returnValue) => {
     try {
       const data = {
