@@ -42,14 +42,6 @@
             ></div>
             <div v-else-if="loading">Loading</div>
         </div>
-        <div class="mt-8">
-            <h2>Server Messages:</h2>
-            <ul>
-                <li v-for="(msg, index) in messages" :key="index">
-                    {{ msg }}
-                </li>
-            </ul>
-        </div>
     </div>
 </template>
 
@@ -71,7 +63,6 @@ const handleFileInput = (event: Event) => {
 };
 const recipe = ref<string>("");
 
-const messages = ref<string[]>([]);
 let eventSource: EventSource | null = null;
 
 const submit = async () => {
@@ -117,10 +108,7 @@ onMounted(() => {
 
     eventSource.onmessage = (event: MessageEvent) => {
         try {
-            const parsedData = JSON.parse(event.data);
-            messages.value.push(
-                `Job ${parsedData.jobId} completed: ${JSON.stringify(parsedData)}`,
-            );
+            recipe.value = JSON.parse(event.data).ollamaResult;
         } catch (error) {
             console.error("Failed to parse SSE data.", error);
         }
