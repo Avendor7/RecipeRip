@@ -1,6 +1,6 @@
 // src/controllers/eventController.ts
 import { Request, Response } from 'express';
-import { videoProcessEvents } from '../services/queueService.js';
+import { processingEvents } from '../services/queueService.js';
 
 export const streamEvents = (req: Request, res: Response): void => {
     // Set necessary headers for SSE
@@ -9,7 +9,7 @@ export const streamEvents = (req: Request, res: Response): void => {
     res.setHeader('Connection', 'keep-alive');
 
     // Listen for completion events on the queue
-    videoProcessEvents.on('completed', async ({ jobId, returnvalue }) => {
+    processingEvents.on('completed', async ({ jobId, returnvalue }) => {
         try {
             const data = {
                 jobId,
@@ -29,6 +29,6 @@ export const streamEvents = (req: Request, res: Response): void => {
     // When the client closes the connection, stop sending events
     req.on('close', () => {
         console.log('Client disconnected from SSE');
-        videoProcessEvents.removeAllListeners('completed');
+        processingEvents.removeAllListeners('completed');
     });
 };
