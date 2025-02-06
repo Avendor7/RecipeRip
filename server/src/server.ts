@@ -1,5 +1,5 @@
 import app from './app.js';
-import { PORT, REDIS_CONNECTION } from './config/index.js';
+import { PORT } from './config/index.js';
 import { initializeWorker, processingQueue, processingEvents } from './services/queueService.js';
 
 
