@@ -1,7 +1,6 @@
-// src/server.ts
 import app from './app.js';
 import { PORT, REDIS_CONNECTION } from './config/index.js';
-import { initializeWorker, videoProcessQueue, videoProcessEvents } from './services/queueService.js';
+import { initializeWorker, processingQueue, processingEvents } from './services/queueService.js';
 
 
 // Initialize the worker
@@ -17,8 +16,8 @@ const shutdown = async () => {
     server.close(async () => {
         try {
             // Close the queue and workers
-            await videoProcessQueue.close();
-            await videoProcessEvents.close();
+            await processingQueue.close();
+            await processingEvents.close();
             await worker.close();
             console.log('Shutdown complete.');
             process.exit(0);
