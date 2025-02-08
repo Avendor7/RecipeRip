@@ -11,9 +11,28 @@ export const streamEvents = (req: Request, res: Response): void => {
     // Listen for completion events on the queue
     processingEvents.on('completed', async ({ jobId, returnvalue }) => {
         try {
+            //queue returns the jobId and a return value upon completion. Package it up and send to front end
             const data = {
                 jobId,
-                ollamaResult: returnvalue,
+                progress : 0.5,
+                ollamaResult: returnvalue, //TODO: change this to not use ollamaResult
+            };
+
+            res.write(`data: ${JSON.stringify(data)}\n\n`);
+        } catch (error) {
+            const errData = {
+                jobId,
+                error: 'An error occurred while retrieving job data.',
+            };
+            res.write(`data: ${JSON.stringify(errData)}\n\n`);
+        }
+    });
+
+    // Listen for completion events on the queue
+    processingEvents.on('active', async ({ jobId }) => {
+        try {
+            const data = {
+                jobId,
             };
 
             res.write(`data: ${JSON.stringify(data)}\n\n`);

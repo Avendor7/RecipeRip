@@ -108,6 +108,8 @@ onMounted(() => {
 
     eventSource.onmessage = (event: MessageEvent) => {
         try {
+            console.log(JSON.parse(event.data));
+            console.log(JSON.parse(event.data).progress ?? "");
             recipe.value = JSON.parse(event.data).ollamaResult;
         } catch (error) {
             console.error("Failed to parse SSE data.", error);
