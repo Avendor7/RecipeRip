@@ -76,17 +76,11 @@ const submit = async () => {
 
     try {
         loading.value = true;
-        const response = await axios.post(
-            "http://localhost:3000/upload",
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+        await axios.post("http://localhost:3000/upload", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
             },
-        );
-        console.log(response.data.data);
-        recipe.value = response.data.data;
+        });
         loading.value = false;
     } catch (error) {
         console.error(error);
