@@ -24,6 +24,9 @@ Thumbs.db
 # IDEA project files
 .idea/
 
+# IDEA project files
+.vscode/
+
 # Other environment files
 .env
 /node_modules
