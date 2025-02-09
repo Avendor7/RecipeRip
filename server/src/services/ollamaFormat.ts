@@ -9,7 +9,7 @@ export const processWithOllama = async (convertedTextFilePath: string): Promise<
         let text = await fs.promises.readFile(filepath, 'utf8');
 
         const messageString = `The following text is a transcription from a TikTok video that shows how to cook something. 
-Take this text and format it like it would appear in a cookbook or website. The output should be Markdown formatted:
+Take this text and format it like it would appear in a cookbook or website. The output should be Markdown formatted with useful information like a brief description of the recipe, ingredients, and steps:
 
 ${text}`;
 
