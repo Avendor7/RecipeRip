@@ -14,7 +14,7 @@ Take this text and format it like it would appear in a cookbook or website. The 
 ${text}`;
 
         const response = await ollama.chat({
-            model: process.env.OLLAMA_MODEL || 'llama:3.2:1b',
+            model: process.env.OLLAMA_MODEL || 'llama3.2:1b',
             messages: [{ role: 'user', content: messageString }],
         });
 
