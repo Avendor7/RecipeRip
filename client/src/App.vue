@@ -36,21 +36,28 @@
             <div class="text-center mt-2">{{ progress }}% Complete</div>
         </div>
 
-        <div class="flex flex-row space-x-4 mt-4 mr-4">
-            <div>
+        <div v-if="videoSrc" class="flex flex-row space-x-4 mt-4 mr-4">
+            <div class="w-1/2">
                 <video
                     v-if="videoSrc"
                     :src="videoSrc"
                     controls
-                    class="mt-4 max-w-screen-md rounded border-solid border-2 border-gray-300"
+                    class="mt-4 w-full rounded border-solid border-2 border-gray-300"
                 ></video>
             </div>
-            <div
-                v-if="recipe"
-                v-html="sanitizedMarkdown"
-                class="prose max-w-screen-md mt-4 p-4 bg-gray-100 rounded"
-            ></div>
-            <div v-else-if="loading">Loading</div>
+            <div class="w-1/2">
+                <div
+                    v-if="recipe"
+                    v-html="sanitizedMarkdown"
+                    class="prose w-full mt-4 p-4 bg-gray-100 rounded"
+                ></div>
+                <div
+                    v-else-if="loading"
+                    class="prose w-full mt-4 p-4 bg-gray-100 rounded"
+                >
+                    Loading
+                </div>
+            </div>
         </div>
     </div>
 </template>
