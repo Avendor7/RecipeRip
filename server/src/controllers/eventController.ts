@@ -8,14 +8,27 @@ export const streamEvents = (req: Request, res: Response): void => {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
+    let textProcessJobID = "";
+    let videoProcessJobID = "";
+    let progress = 0;
     // Listen for completion events on the queue
     processingEvents.on('completed', async ({ jobId, returnvalue }) => {
+
         try {
             //queue returns the jobId and a return value upon completion. Package it up and send to front end
+
+            if(!textProcessJobID){
+                textProcessJobID = jobId;
+                progress = 0.5;
+            }else{
+                videoProcessJobID = jobId;
+                progress = 1;
+            }
+
             const data = {
                 jobId,
-                progress : 0.5,
-                ollamaResult: returnvalue, //TODO: change this to not use ollamaResult
+                result: returnvalue,
+                progress,
             };
 
             res.write(`data: ${JSON.stringify(data)}\n\n`);
@@ -29,10 +42,15 @@ export const streamEvents = (req: Request, res: Response): void => {
     });
 
     // Listen for completion events on the queue
-    processingEvents.on('active', async ({ jobId }) => {
+    processingEvents.on('added', async ({ jobId, name }) => {
+        if(name === 'process-video'){
+            progress = 0.1;
+        }
         try {
             const data = {
                 jobId,
+                name,
+                progress,
             };
 
             res.write(`data: ${JSON.stringify(data)}\n\n`);

@@ -26,6 +26,16 @@
                 Submit
             </button>
         </div>
+        <div v-if="loading" class="w-full max-w-md mt-4">
+            <div class="bg-gray-200 rounded-full h-2.5">
+                <div
+                    class="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                    :style="{ width: `${progress}%` }"
+                ></div>
+            </div>
+            <div class="text-center mt-2">{{ progress }}% Complete</div>
+        </div>
+
         <div class="flex flex-row space-x-4 mt-4 mr-4">
             <div>
                 <video
@@ -55,6 +65,7 @@ import DOMPurify from "dompurify";
 const file = ref<File | null>(null);
 const videoSrc = ref<string | null>(null);
 const loading = ref<boolean>(false);
+const textJob = ref<string>("");
 // Handle file input
 const handleFileInput = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -64,6 +75,7 @@ const handleFileInput = (event: Event) => {
 const recipe = ref<string>("");
 
 let eventSource: EventSource | null = null;
+const progress = ref<number>(0);
 
 const submit = async () => {
     if (!file.value) {
@@ -81,7 +93,6 @@ const submit = async () => {
                 "Content-Type": "multipart/form-data",
             },
         });
-        loading.value = false;
     } catch (error) {
         console.error(error);
     }
@@ -102,9 +113,21 @@ onMounted(() => {
 
     eventSource.onmessage = (event: MessageEvent) => {
         try {
-            console.log(JSON.parse(event.data));
-            console.log(JSON.parse(event.data).progress ?? "");
-            recipe.value = JSON.parse(event.data).ollamaResult;
+            const data = JSON.parse(event.data);
+            console.log(data);
+            // Update progress if it exists
+            if (data.progress !== undefined) {
+                progress.value = Math.round(data.progress * 100);
+            }
+
+            // Update recipe if it exists
+            if (data.result) {
+                recipe.value = data.result;
+            }
+            if (data.name == "process-text") {
+                textJob.value = data.jobId;
+                progress.value = data.progress;
+            }
         } catch (error) {
             console.error("Failed to parse SSE data.", error);
         }
