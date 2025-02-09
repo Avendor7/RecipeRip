@@ -1,6 +1,6 @@
 import { Queue, QueueEvents, Worker, Job } from 'bullmq';
 import { REDIS_CONNECTION, PROJECT_ROOT } from '../config/index.js';
-import { processVideo, processText } from './videoProcessor.js';
+import { processVideo, processText } from './fileProcessor';
 
 // Define types for job data
 type VideoJobData = {
@@ -13,7 +13,6 @@ type TextJobData = {
 };
 
 export const processingQueue = new Queue('processingQueue', { connection: REDIS_CONNECTION });
-//may not need this
 export const processingEvents = new QueueEvents('processingQueue', { connection: REDIS_CONNECTION });
 
 export const addVideoProcessingJob = async (filePath: string) => {
@@ -37,17 +36,23 @@ export const initializeWorker = () => {
       let result;
 
       if (job.name === 'process-video') {
+
         const { filePath, projectRoot } = job.data as VideoJobData;
+
         result = await processVideo(filePath, projectRoot);
-        // Automatically queue the text processing job with the resulting text
+
+        // Automatically queue the ollama text processing job with the resulting text
         await addTextProcessingJob(result);
+
       } else if (job.name === 'process-text') {
         const { text } = job.data as TextJobData;
         result = await processText(text);
       }
 
       console.log(`Job ${job.id} completed successfully.`);
+
       return result;
+
     } catch (error) {
       console.error(`Job ${job.id} failed:`, error);
       throw error;
