@@ -37,7 +37,7 @@
         </div>
 
         <div v-if="videoSrc" class="flex flex-row space-x-4 mt-4 mr-4">
-            <div class="w-1/2">
+            <div style="width: 600px">
                 <video
                     v-if="videoSrc"
                     :src="videoSrc"
@@ -45,17 +45,19 @@
                     class="mt-4 w-full rounded border-solid border-2 border-gray-300"
                 ></video>
             </div>
-            <div class="w-1/2">
+            <div
+                style="width: 600px"
+                class="prose w-full mt-4 p-4 rounded border-solid border-2 border-gray-300"
+            >
                 <div
                     v-if="recipe"
                     v-html="sanitizedMarkdown"
-                    class="prose w-full mt-4 p-4 bg-gray-100 rounded"
+                    class="prose text-gray-100 prose-headings:text-gray-100 w-full mt-4 p-4 rounded"
                 ></div>
-                <div
-                    v-else-if="loading"
-                    class="prose w-full mt-4 p-4 bg-gray-100 rounded"
-                >
-                    Loading
+                <div v-else-if="loading" class="prose w-full mt-4 p-4 rounded">
+                    <span class="flex items-center justify-center h-full w-full"
+                        >Loading</span
+                    >
                 </div>
             </div>
         </div>
