@@ -1,66 +1,84 @@
 <template>
-    <div class="min-h-screen flex flex-col items-center justify-center">
-        <h1 class="text-3xl font-bold text-center mb-8">RecipeRip</h1>
-        <div class="flex flex-row space-x-4">
-            <label
-                class="inline-flex items-center space-x-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
-                for="file-input"
-            >
-                <span v-if="!file">Choose File</span>
-                <span v-else>{{ file.name }}</span>
-            </label>
-            <input
-                id="file-input"
-                ref="fileInput"
-                class="hidden"
-                name="files[]"
-                type="file"
-                @input="handleFileInput"
-            />
-
-            <button
-                v-if="file"
-                class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
-                @click="submit"
-            >
-                Submit
-            </button>
-        </div>
-        <div v-if="loading" class="w-full max-w-md mt-4">
-            <div class="bg-gray-200 rounded-full h-2.5">
-                <div
-                    class="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
-                    :style="{ width: `${progress}%` }"
-                ></div>
-            </div>
-            <div class="text-center mt-2">{{ progress }}% Complete</div>
-        </div>
-
-        <div v-if="videoSrc" class="flex flex-row space-x-4 mt-4 mr-4">
-            <div style="width: 600px">
-                <video
-                    v-if="videoSrc"
-                    :src="videoSrc"
-                    controls
-                    class="mt-4 w-full rounded border-solid border-2 border-gray-300"
-                ></video>
-            </div>
+    <div class="min-h-screen bg-gray-900 flex flex-col">
+        <header class="bg-gray-800 text-white py-5 shadow-md">
+            <h1 class="text-3xl md:text-4xl font-bold text-center">
+                RecipeRip
+            </h1>
+        </header>
+        <main class="flex flex-col items-center justify-center flex-grow py-8">
+            <!-- Upload Card -->
             <div
-                style="width: 600px"
-                class="prose w-full mt-4 p-4 rounded border-solid border-2 border-gray-300"
+                class="bg-gray-800 w-full max-w-md rounded-lg shadow-md p-6 mb-8 border border-gray-700"
             >
+                <h2 class="text-2xl font-semibold mb-4 text-gray-100">
+                    Upload Your Video
+                </h2>
+
+                <!-- File Selection + Submit -->
                 <div
-                    v-if="recipe"
-                    v-html="sanitizedMarkdown"
-                    class="prose text-gray-100 prose-headings:text-gray-100 w-full mt-4 p-4 rounded"
-                ></div>
-                <div v-else-if="loading" class="prose w-full mt-4 p-4 rounded">
-                    <span class="flex items-center justify-center h-full w-full"
-                        >Loading</span
+                    class="flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4 items-center"
+                >
+                    <!-- File Input Label/Button -->
+                    <input
+                        id="fileInput"
+                        type="file"
+                        class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-700"
+                        @change="handleFileInput"
+                    />
+
+                    <!-- Submit Button -->
+                    <button
+                        v-if="file"
+                        class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        @click="submit"
                     >
+                        Submit
+                    </button>
+                </div>
+                <div v-if="loading" class="mt-5">
+                    <div class="bg-gray-700 h-2.5 rounded-full">
+                        <div
+                            class="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                            :style="{ width: `${progress}%` }"
+                        ></div>
+                    </div>
+                    <div class="text-center mt-2 text-gray-300">
+                        {{ progress }}% Complete
+                    </div>
                 </div>
             </div>
-        </div>
+            <div
+                v-if="videoSrc"
+                class="flex flex-col md:flex-row md:space-x-4 w-full max-w-6xl p-4 items-start space-y-4 md:space-y-0"
+            >
+                <!-- Video Section -->
+                <div class="w-full md:w-1/2">
+                    <video
+                        v-if="videoSrc"
+                        :src="videoSrc"
+                        controls
+                        class="w-full rounded border-2 border-gray-700"
+                    ></video>
+                </div>
+
+                <!-- Recipe Section -->
+                <div
+                    class="w-full md:w-1/2 bg-gray-800 rounded-lg shadow-md p-4 border border-gray-700 prose prose-invert"
+                >
+                    <div
+                        v-if="recipe"
+                        v-html="sanitizedMarkdown"
+                        class="text-gray-100"
+                    ></div>
+                    <div
+                        v-else-if="loading"
+                        class="flex items-center justify-center h-full w-full text-gray-400"
+                    >
+                        Loading
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 </template>
 
