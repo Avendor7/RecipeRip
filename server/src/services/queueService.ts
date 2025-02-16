@@ -1,6 +1,6 @@
 import { Queue, QueueEvents, Worker, Job } from 'bullmq';
 import { REDIS_CONNECTION, PROJECT_ROOT } from '../config/index.js';
-import { processVideo, processText } from './fileProcessor';
+import { processVideo, processText } from './fileProcessor.js';
 
 // Define types for job data
 type VideoJobData = {
