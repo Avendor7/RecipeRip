@@ -112,10 +112,11 @@ const submit = async () => {
 
     const formData = new FormData();
     formData.append("file", file.value);
-
+    const baseURL =
+        import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
     try {
         loading.value = true;
-        await axios.post("http://localhost:3000/upload", formData, {
+        await axios.post(baseURL + "/upload", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -135,8 +136,10 @@ const sanitizedMarkdown = computed(() => {
 });
 
 onMounted(() => {
+    const baseURL =
+        import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
     //create an event source for SSE.
-    eventSource = new EventSource("http://localhost:3000/events");
+    eventSource = new EventSource(baseURL + "/events");
 
     eventSource.onmessage = (event: MessageEvent) => {
         try {
