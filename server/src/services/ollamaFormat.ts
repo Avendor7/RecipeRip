@@ -1,8 +1,8 @@
 // src/services/ollamaFormat.ts
 import fs from 'fs';
 import path from 'node:path';
-import ollama from 'ollama';
-
+import {Ollama} from 'ollama';
+const ollama = new Ollama({ host: 'http://host.docker.internal:11434' })
 export const processWithOllama = async (convertedTextFilePath: string): Promise<string> => {
     try {
         const filepath = path.resolve('', convertedTextFilePath);
