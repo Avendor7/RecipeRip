@@ -2,7 +2,7 @@
 import path from 'node:path';
 import { nodewhisper } from 'nodejs-whisper';
 
-export const convertSpeechToText = async (filePath: string | undefined, projectRoot: string): Promise<string> => {
+export const convertSpeechToText = async (filePath: string | undefined, projectRoot: string, clientId: string): Promise<string> => {
     try {
         if (!filePath) {
             throw new Error("File path is undefined");

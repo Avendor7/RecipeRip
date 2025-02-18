@@ -112,6 +112,7 @@ const submit = async () => {
 
     const formData = new FormData();
     formData.append("file", file.value);
+    formData.append("clientId", clientId.value);
     const baseURL =
         import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
     try {
@@ -135,11 +136,16 @@ const sanitizedMarkdown = computed(() => {
     return "";
 });
 
+const clientId = ref(crypto.randomUUID());
+
 onMounted(() => {
     const baseURL =
         import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
     //create an event source for SSE.
-    eventSource = new EventSource(baseURL + "/events");
+    console.log(clientId.value);
+    eventSource = new EventSource(
+        baseURL + "/events?clientId=" + clientId.value,
+    );
 
     eventSource.onmessage = (event: MessageEvent) => {
         try {

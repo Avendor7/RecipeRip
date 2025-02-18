@@ -5,8 +5,8 @@ import { addVideoProcessingJob } from '../services/queueService.js';
 export const uploadVideo = async (req: Request, res: Response) :Promise<void> => {
     try {
         console.log('File uploaded:', req.file);
-
-        await addVideoProcessingJob(req.file?.path || '');
+        console.log('ClientID:', req.body.clientId);
+        await addVideoProcessingJob(req.file?.path || '', req.body.clientId);
 
         res.status(200).json({
             message: 'Job added to the Video Processing Queue successfully',
