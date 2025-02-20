@@ -103,7 +103,7 @@ const recipe = ref<string>("");
 
 let eventSource: EventSource | null = null;
 const progress = ref<number>(0);
-
+const clientId = ref<string>(crypto.randomUUID());
 const submit = async () => {
     if (!file.value) {
         alert("No file selected!");
@@ -112,6 +112,7 @@ const submit = async () => {
 
     const formData = new FormData();
     formData.append("file", file.value);
+    formData.append("clientId", clientId.value);
     const baseURL =
         import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
     try {
