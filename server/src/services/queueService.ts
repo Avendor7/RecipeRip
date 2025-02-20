@@ -15,11 +15,10 @@ type TextJobData = {
 export const processingQueue = new Queue('processingQueue', { connection: REDIS_CONNECTION });
 export const processingEvents = new QueueEvents('processingQueue', { connection: REDIS_CONNECTION });
 
-export const addVideoProcessingJob = async (filePath: string, clientId: string) => {
+export const addVideoProcessingJob = async (filePath: string) => {
   await processingQueue.add('process-video', {
     filePath,
     projectRoot: PROJECT_ROOT,
-    clientId,
   } as VideoJobData);
 };
 
