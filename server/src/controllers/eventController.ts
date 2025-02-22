@@ -8,10 +8,9 @@ export const streamEvents = (req: Request, res: Response): void => {
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    let textProcessJobID = "";
-    let videoProcessJobID = "";
     let progress = 0;
     const clientId= req.query.clientId as string;
+
     // Listen for completion events on the queue
     processingEvents.on('completed', async ({ jobId, returnvalue }) => {
 
