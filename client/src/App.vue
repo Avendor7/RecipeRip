@@ -148,7 +148,6 @@ onMounted(() => {
     eventSource.onmessage = (event: MessageEvent) => {
         try {
             const data = JSON.parse(event.data);
-            console.log(data);
             // Update progress if it exists
             if (data.progress !== undefined) {
                 progress.value = Math.round(data.progress * 100);
