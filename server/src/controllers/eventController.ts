@@ -11,19 +11,21 @@ export const streamEvents = (req: Request, res: Response): void => {
     let textProcessJobID = "";
     let videoProcessJobID = "";
     let progress = 0;
+    const clientId= req.query.clientId as string;
     // Listen for completion events on the queue
     processingEvents.on('completed', async ({ jobId, returnvalue }) => {
 
         try {
             //queue returns the jobId and a return value upon completion. Package it up and send to front end
 
-            if(!textProcessJobID){
-                textProcessJobID = jobId;
+            if(jobId === clientId + "-process-video"){
                 progress = 0.5;
-            }else{
-                videoProcessJobID = jobId;
+            }else if(jobId === clientId + "-process-text"){
                 progress = 1;
             }
+
+            //strip -process-video from the jobId so it matches
+            jobId = jobId.replace(/-process-(video|text)/g, '');
 
             const data = {
                 jobId,
@@ -31,21 +33,40 @@ export const streamEvents = (req: Request, res: Response): void => {
                 progress,
             };
 
-            res.write(`data: ${JSON.stringify(data)}\n\n`);
+            if(jobId === clientId){
+                res.write(`data: ${JSON.stringify(data)}\n\n`);
+                console.log("sending result to " + clientId + " for job " + jobId);
+            }else{
+                console.log("not sending result to client " + clientId + " for job " + jobId);
+            }
         } catch (error) {
             const errData = {
                 jobId,
                 error: 'An error occurred while retrieving job data.',
             };
-            res.write(`data: ${JSON.stringify(errData)}\n\n`);
+            if(jobId === clientId){
+                res.write(`data: ${JSON.stringify(error)}\n\n`);
+                console.log("sending result to " + clientId + " for job " + jobId);
+            }else{
+                console.log("not sending result to client " + clientId + " for job " + jobId);
+            }
         }
     });
 
     // Listen for completion events on the queue
     processingEvents.on('added', async ({ jobId, name }) => {
-        if(name === 'process-video'){
-            progress = 0.1;
+
+        //queue returns the jobId and a return value upon completion. Package it up and send to front end
+
+        if(jobId === clientId + "-process-video"){
+            progress = 0.5;
+        }else if(jobId === clientId + "-process-text"){
+            progress = 1;
         }
+
+        //strip -process-video from the jobId so it matches
+        jobId = jobId.replace(/-process-(video|text)/g, '');
+
         try {
             const data = {
                 jobId,
@@ -53,13 +74,23 @@ export const streamEvents = (req: Request, res: Response): void => {
                 progress,
             };
 
-            res.write(`data: ${JSON.stringify(data)}\n\n`);
+            if(jobId === clientId){
+                res.write(`data: ${JSON.stringify(data)}\n\n`);
+                console.log("sending result to " + clientId + " for job " + jobId);
+            }else{
+                console.log("not sending result to client " + clientId + " for job " + jobId);
+            }
         } catch (error) {
             const errData = {
                 jobId,
                 error: 'An error occurred while retrieving job data.',
             };
-            res.write(`data: ${JSON.stringify(errData)}\n\n`);
+            if(jobId === clientId){
+                res.write(`data: ${JSON.stringify(error)}\n\n`);
+                console.log("sending result to " + clientId + " for job " + jobId);
+            }else{
+                console.log("not sending result to client " + clientId + " for job " + jobId);
+            }
         }
     });
 
