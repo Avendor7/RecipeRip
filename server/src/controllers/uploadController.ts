@@ -12,7 +12,7 @@ export const uploadVideo = async (req: UploadRequest, res: Response) :Promise<vo
     try {
         console.log('File uploaded:', req.file);
         console.log('Client ID:', req.body.clientId);
-        await addVideoProcessingJob(req.file?.path || '');
+        await addVideoProcessingJob(req.file?.path || '', req.body.clientId || "");
 
         res.status(200).json({
             message: 'Job added to the Video Processing Queue successfully',

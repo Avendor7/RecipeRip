@@ -15,17 +15,23 @@ type TextJobData = {
 export const processingQueue = new Queue('processingQueue', { connection: REDIS_CONNECTION });
 export const processingEvents = new QueueEvents('processingQueue', { connection: REDIS_CONNECTION });
 
-export const addVideoProcessingJob = async (filePath: string) => {
+export const addVideoProcessingJob = async (filePath: string, clientId: string) => {
   await processingQueue.add('process-video', {
     filePath,
     projectRoot: PROJECT_ROOT,
-  } as VideoJobData);
+  } as VideoJobData, {
+    jobId: clientId + "-process-video"
+
+  });
 };
 
-export const addTextProcessingJob = async (text: string) => {
+export const addTextProcessingJob = async (text: string, clientId: string) => {
+  clientId = clientId.replace(/-process-video/g, '');
   await processingQueue.add('process-text', {
     text,
-  } as TextJobData);
+  } as TextJobData,{
+    jobId: clientId + "-process-text"
+  });
 };
 
 export const initializeWorker = () => {
@@ -42,7 +48,7 @@ export const initializeWorker = () => {
         result = await processVideo(filePath, projectRoot);
 
         // Automatically queue the ollama text processing job with the resulting text
-        await addTextProcessingJob(result);
+        await addTextProcessingJob(result, job.id || "");
 
       } else if (job.name === 'process-text') {
         const { text } = job.data as TextJobData;

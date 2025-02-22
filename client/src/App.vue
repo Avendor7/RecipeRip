@@ -113,6 +113,7 @@ const submit = async () => {
     const formData = new FormData();
     formData.append("file", file.value);
     formData.append("clientId", clientId.value);
+    console.log(clientId.value);
     const baseURL =
         import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000";
     try {
