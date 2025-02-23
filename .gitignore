@@ -30,3 +30,5 @@ Thumbs.db
 # Other environment files
 .env
 /node_modules
+
+dockerBuild.sh
