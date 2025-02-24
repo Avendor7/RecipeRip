@@ -44,7 +44,7 @@ export const streamEvents = (req: Request, res: Response): void => {
                 error: 'An error occurred while retrieving job data.',
             };
             if(jobId === clientId){
-                res.write(`data: ${JSON.stringify(error)}\n\n`);
+                res.write(`data: ${JSON.stringify(errData)}\n\n`);
                 console.log("sending result to " + clientId + " for job " + jobId);
             }else{
                 console.log("not sending result to client " + clientId + " for job " + jobId);
@@ -58,9 +58,9 @@ export const streamEvents = (req: Request, res: Response): void => {
         //queue returns the jobId and a return value upon completion. Package it up and send to front end
 
         if(jobId === clientId + "-process-video"){
-            progress = 0.5;
+            progress = 0.2;
         }else if(jobId === clientId + "-process-text"){
-            progress = 1;
+            progress = 0.8;
         }
 
         //strip -process-video from the jobId so it matches
@@ -85,7 +85,7 @@ export const streamEvents = (req: Request, res: Response): void => {
                 error: 'An error occurred while retrieving job data.',
             };
             if(jobId === clientId){
-                res.write(`data: ${JSON.stringify(error)}\n\n`);
+                res.write(`data: ${JSON.stringify(errData)}\n\n`);
                 console.log("sending result to " + clientId + " for job " + jobId);
             }else{
                 console.log("not sending result to client " + clientId + " for job " + jobId);
