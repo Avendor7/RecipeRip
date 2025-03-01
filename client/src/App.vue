@@ -1,81 +1,33 @@
 <template>
     <div class="min-h-screen bg-blue-100 dark:bg-gray-900 flex flex-col">
-        <header
-            class="relative bg-gray-800/80 backdrop-blur-sm text-white py-6 shadow-lg"
-        >
-            <h1
-                class="text-4xl md:text-5xl font-bold text-center tracking-tight"
-            >
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
-                    >Recipe</span
-                >
-                <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400"
-                    >Rip</span
-                >
+        <header class="relative bg-gray-800/80 backdrop-blur-sm text-white py-6 shadow-lg">
+            <h1 class="text-4xl md:text-5xl font-bold text-center tracking-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Recipe</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Rip</span>
             </h1>
 
-            <div
-                class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
-            ></div>
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
         </header>
         <main class="flex-grow relative">
-            <div
-                :class="[
-                    'transition-all duration-500 ease-in-out',
-                    !videoSrc
-                        ? 'opacity-100 translate-y-0'
-                        : 'opacity-0 -translate-y-full absolute',
-                    'w-full',
-                ]"
-            >
+            <div :class="['transition-all duration-500 ease-in-out', !videoSrc ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full absolute', 'w-full',]">
                 <!-- Upload Card -->
                 <div class="min-h-[80vh] flex items-center justify-center px-4">
-                    <div
-                        class="bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700 max-w-xl w-full"
-                    >
+                    <div class="bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700 max-w-xl w-full">
                         <h2 class="text-2xl font-semibold mb-6 text-gray-100">
                             Upload Your Recipe Video
                         </h2>
 
-                        <label
-                            for="fileInput"
-                            class="block w-full p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-gray-850 hover:bg-gray-750"
-                        >
+                        <label class="block w-full p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-gray-850 hover:bg-gray-750" for="fileInput">
                             <div class="text-center">
-                                <svg
-                                    class="w-16 h-16 mx-auto text-gray-400 mb-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                    />
+                                <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
-                                <span class="text-gray-300 text-lg"
-                                    >Drop your video here or click to
-                                    browse</span
-                                >
+                                <span class="text-gray-300 text-lg">Drop your video here or click to browse</span>
                             </div>
-                            <input
-                                id="fileInput"
-                                type="file"
-                                class="hidden"
-                                accept="video/*"
-                                @change="handleFileInput"
-                            />
+                            <input id="fileInput" type="file" class="hidden" accept="video/*" @change="handleFileInput"/>
                         </label>
 
-                        <button
-                            v-if="file"
-                            class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium transition-colors text-lg"
-                            @click="submit"
-                        >
+                        <button v-if="file" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium transition-colors text-lg" @click="submit">
                             Process Video
                         </button>
                     </div>
@@ -83,10 +35,9 @@
             </div>
             <div v-if="videoSrc" class="min-h-[90vh] flex flex-col lg:flex-row">
                 <!-- Video Section -->
-                <div
-                    class="lg:w-1/3 bg-gray-850 p-4 lg:min-h-[80vh] lg:max-h-[90vh] flex flex-col"
-                >
-                    <!-- Minimized Upload Section -->
+                <div class="lg:w-1/3 bg-gray-850 p-4 lg:min-h-[80vh] lg:max-h-[90v">
+
+                <!-- Minimized Upload Section -->
                     <div class="bg-gray-800 rounded-lg p-4 mb-4 shadow-md">
                         <div class="flex items-center space-x-4">
                             <input
