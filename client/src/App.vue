@@ -20,76 +20,142 @@
                 class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
             ></div>
         </header>
-        <main class="flex flex-col items-center justify-center flex-grow py-8">
-            <!-- Upload Card -->
+        <main class="flex-grow relative">
             <div
-                class="bg-gray-800 w-full max-w-md rounded-lg shadow-md p-6 mb-8 border border-gray-700"
+                :class="[
+                    'transition-all duration-500 ease-in-out',
+                    !videoSrc
+                        ? 'opacity-100 translate-y-0'
+                        : 'opacity-0 -translate-y-full absolute',
+                    'w-full',
+                ]"
             >
-                <h2 class="text-2xl font-semibold mb-4 text-gray-100">
-                    Upload Your Video
-                </h2>
-
-                <!-- File Selection + Submit -->
-                <div
-                    class="flex flex-col space-y-3 md:space-y-0 md:flex-row md:space-x-4 items-center"
-                >
-                    <!-- File Input Label/Button -->
-                    <input
-                        id="fileInput"
-                        type="file"
-                        class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-700"
-                        @change="handleFileInput"
-                    />
-
-                    <!-- Submit Button -->
-                    <button
-                        v-if="file"
-                        class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
-                        @click="submit"
+                <!-- Upload Card -->
+                <div class="min-h-[80vh] flex items-center justify-center px-4">
+                    <div
+                        class="bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700 max-w-xl w-full"
                     >
-                        Submit
-                    </button>
-                </div>
-                <div v-if="loading" class="mt-5">
-                    <div class="bg-gray-700 h-2.5 rounded-full">
-                        <div
-                            class="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
-                            :style="{ width: `${progress}%` }"
-                        ></div>
-                    </div>
-                    <div class="text-center mt-2 text-gray-300">
-                        {{ progress }}% Complete
+                        <h2 class="text-2xl font-semibold mb-6 text-gray-100">
+                            Upload Your Recipe Video
+                        </h2>
+
+                        <label
+                            for="fileInput"
+                            class="block w-full p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-gray-850 hover:bg-gray-750"
+                        >
+                            <div class="text-center">
+                                <svg
+                                    class="w-16 h-16 mx-auto text-gray-400 mb-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                    />
+                                </svg>
+                                <span class="text-gray-300 text-lg"
+                                    >Drop your video here or click to
+                                    browse</span
+                                >
+                            </div>
+                            <input
+                                id="fileInput"
+                                type="file"
+                                class="hidden"
+                                accept="video/*"
+                                @change="handleFileInput"
+                            />
+                        </label>
+
+                        <button
+                            v-if="file"
+                            class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg font-medium transition-colors text-lg"
+                            @click="submit"
+                        >
+                            Process Video
+                        </button>
                     </div>
                 </div>
             </div>
-            <div
-                v-if="videoSrc"
-                class="flex flex-col md:flex-row md:space-x-4 w-full max-w-6xl p-4 items-start space-y-4 md:space-y-0"
-            >
+            <div v-if="videoSrc" class="min-h-[90vh] flex flex-col lg:flex-row">
                 <!-- Video Section -->
-                <div class="w-full md:w-1/2">
-                    <video
-                        v-if="videoSrc"
-                        :src="videoSrc"
-                        controls
-                        class="w-full rounded border-2 border-gray-700"
-                    ></video>
+                <div
+                    class="lg:w-1/3 bg-gray-850 p-4 lg:min-h-[80vh] lg:max-h-[90vh] flex flex-col"
+                >
+                    <!-- Minimized Upload Section -->
+                    <div class="bg-gray-800 rounded-lg p-4 mb-4 shadow-md">
+                        <div class="flex items-center space-x-4">
+                            <input
+                                type="file"
+                                class="hidden"
+                                id="newFileInput"
+                                @change="handleFileInput"
+                            />
+                            <label
+                                for="newFileInput"
+                                class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg cursor-pointer flex-grow text-center text-sm text-gray-300"
+                            >
+                                Choose Another Video
+                            </label>
+                            <button
+                                v-if="file"
+                                class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white text-sm"
+                                @click="submit"
+                            >
+                                Process
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="flex-grow bg-gray-800 rounded-lg shadow-xl overflow-hidden"
+                    >
+                        <video
+                            v-if="videoSrc"
+                            :src="videoSrc"
+                            controls
+                            class="w-full h-full object-cover"
+                        ></video>
+                    </div>
                 </div>
 
                 <!-- Recipe Section -->
+
                 <div
-                    class="w-full md:w-1/2 bg-gray-800 rounded-lg shadow-md p-4 border border-gray-700 prose prose-invert"
+                    class="lg:w-2/3 bg-gray-850 p-4 lg:min-h-[90vh] flex flex-col"
                 >
                     <div
-                        v-if="recipe"
-                        v-html="sanitizedMarkdown"
-                        class="text-gray-100"
-                    ></div>
-                    <div
-                        v-else-if="loading"
-                        class="flex items-center justify-center h-full w-full text-gray-400"
+                        class="bg-gray-800 rounded-lg shadow-xl p-8 h-full"
+                        :class="{ 'animate-pulse': loading }"
                     >
-                        Loading
+                        <div
+                            v-if="recipe"
+                            v-html="sanitizedMarkdown"
+                            class="text-gray-100 prose prose-invert prose-lg max-w-none"
+                        ></div>
+                        <div
+                            v-else-if="loading"
+                            class="flex flex-col items-center justify-center h-full text-gray-400"
+                        >
+                            <div class="w-full max-w-md">
+                                <div
+                                    class="bg-gray-700 h-2 rounded-full overflow-hidden"
+                                >
+                                    <div
+                                        class="bg-blue-600 h-full rounded-full transition-all duration-300"
+                                        :style="{ width: `${progress}%` }"
+                                    ></div>
+                                </div>
+                                <div
+                                    class="text-center mt-4 text-gray-300 text-lg"
+                                >
+                                    Extracting Recipe... {{ progress }}%
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,8 +235,9 @@ onMounted(() => {
             }
 
             // Update recipe if it exists
-            if (data.result) {
+            if (data.result && data.progress === 1) {
                 recipe.value = data.result;
+                loading.value = false;
             }
             if (data.name == "process-text") {
                 textJob.value = data.jobId;
