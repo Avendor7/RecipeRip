@@ -1,9 +1,24 @@
 <template>
-    <div class="min-h-screen bg-gray-900 flex flex-col">
-        <header class="bg-gray-800 text-white py-5 shadow-md">
-            <h1 class="text-3xl md:text-4xl font-bold text-center">
-                RecipeRip
+    <div class="min-h-screen bg-blue-100 dark:bg-gray-900 flex flex-col">
+        <header
+            class="relative bg-gray-800/80 backdrop-blur-sm text-white py-6 shadow-lg"
+        >
+            <h1
+                class="text-4xl md:text-5xl font-bold text-center tracking-tight"
+            >
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"
+                    >Recipe</span
+                >
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400"
+                    >Rip</span
+                >
             </h1>
+
+            <div
+                class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+            ></div>
         </header>
         <main class="flex flex-col items-center justify-center flex-grow py-8">
             <!-- Upload Card -->
