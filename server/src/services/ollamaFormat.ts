@@ -12,7 +12,7 @@ export const processWithOllama = async (convertedTextFilePath: string): Promise<
 Take this text and format it like it would appear in a cookbook or website. The output should be Markdown formatted with useful information like a brief description of the recipe, ingredients, and steps:
 
 ${text}`;
-
+        console.log("Processing with Ollama");
         const response = await ollama.chat({
             model: process.env.OLLAMA_MODEL || 'llama3.2:1b',
             messages: [{ role: 'user', content: messageString }],
