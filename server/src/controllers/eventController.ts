@@ -11,6 +11,8 @@ export const streamEvents = (req: Request, res: Response): void => {
     let progress = 0;
     const clientId= req.query.clientId as string;
 
+    console.log("Client connected to SSE: " + clientId);
+
     // Listen for completion events on the queue
     processingEvents.on('completed', async ({ jobId, returnvalue }) => {
 
@@ -93,9 +95,11 @@ export const streamEvents = (req: Request, res: Response): void => {
         }
     });
 
+
+
     // When the client closes the connection, stop sending events
     req.on('close', () => {
-        console.log('Client disconnected from SSE');
+        console.log('Client disconnected from SSE: ' + clientId);
         processingEvents.removeAllListeners('completed');
     });
 };
