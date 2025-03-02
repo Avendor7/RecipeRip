@@ -13,7 +13,7 @@
                 <!-- Upload Card -->
                 <div class="min-h-[80vh] flex items-center justify-center px-4">
                     <div class="bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700 max-w-xl w-full">
-                        <h2 class="text-2xl font-semibold mb-6 text-gray-100">
+                        <h2 class="text-2xl font-semibold mb-6 text-gray-100 text-center">
                             Upload Your Recipe Video
                         </h2>
 
@@ -21,7 +21,9 @@
                                 <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
-                                <span class="text-gray-300 text-lg">Drop your video here or click to browse</span>
+                                <span class="text-gray-300 text-lg">Click to browse</span>
+                                <br>
+                                <span class="text-gray-400 text-sm">MP4, MP3 Supported</span>
                             <input id="fileInput" type="file" class="hidden" accept="video/*" @change="handleFileInput"/>
                         </label>
 
