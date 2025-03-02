@@ -17,13 +17,11 @@
                             Upload Your Recipe Video
                         </h2>
 
-                        <label class="block w-full p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-gray-850 hover:bg-gray-750" for="fileInput">
-                            <div class="text-center">
+                        <label class="block w-full p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-blue-500 transition-colors cursor-pointer bg-gray-850 hover:bg-gray-750 text-center" for="fileInput">
                                 <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                 </svg>
                                 <span class="text-gray-300 text-lg">Drop your video here or click to browse</span>
-                            </div>
                             <input id="fileInput" type="file" class="hidden" accept="video/*" @change="handleFileInput"/>
                         </label>
 
