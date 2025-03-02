@@ -11,8 +11,9 @@ export const convertSpeechToText = async (filePath: string | undefined, projectR
         const file = path.resolve('', filePath);
 
         await nodewhisper(file, {
-            modelName: 'tiny.en',
-            autoDownloadModelName: 'tiny.en',
+            modelName: process.env.WHISPER_MODEL || 'tiny.en',
+            autoDownloadModelName: process.env.WHISPER_MODEL || 'tiny.en',
+            removeWavFileAfterTranscription: true,
             whisperOptions: {
                 outputInVtt: false,
                 outputInText: true,
