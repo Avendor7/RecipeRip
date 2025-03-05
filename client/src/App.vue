@@ -39,7 +39,7 @@
 
                 <!-- Minimized Upload Section -->
                     <div class="bg-gray-800 rounded-lg p-4 mb-4 shadow-md">
-                        <div class="flex items-center space-x-4">
+                        <div class="flex items-center py-3">
                             <input
                                 type="file"
                                 class="hidden"
@@ -48,13 +48,15 @@
                             />
                             <label
                                 for="newFileInput"
-                                class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg cursor-pointer flex-grow text-center text-sm text-gray-300"
+                                class="bg-gray-700 hover:bg-gray-600 py-3 rounded-lg cursor-pointer flex-grow text-center text-sm text-gray-300"
                             >
                                 Choose Another Video
                             </label>
+                        </div>
+                        <div class="flex items-center">
                             <button
                                 v-if="file"
-                                class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-white text-sm"
+                                class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:bg-blue-700 px-4 py-3 rounded-lg cursor-pointer flex-grow text-white text-md"
                                 @click="submit"
                             >
                                 Process
