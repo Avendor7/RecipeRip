@@ -82,7 +82,6 @@
                 >
                     <div
                         class="bg-gray-800 rounded-lg shadow-xl p-8 h-full"
-                        :class="{ 'animate-pulse': loading }"
                     >
                         <div
                             v-if="recipe"
