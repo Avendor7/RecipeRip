@@ -33,6 +33,7 @@
                     </div>
                 </div>
             </div>
+
             <div v-if="videoSrc" class="min-h-[90vh] flex flex-col lg:flex-row">
                 <!-- Video Section -->
                 <div class="lg:w-1/3 bg-gray-850 p-4 lg:min-h-[80vh] lg:max-h-[90vh] flex flex-col">
