@@ -36,11 +36,22 @@
 
             <div v-if="videoSrc" class="min-h-[90vh] flex flex-col lg:flex-row">
                 <!-- Video Section -->
-                <div class="lg:w-1/3 bg-gray-850 p-4 lg:min-h-[80vh] lg:max-h-[90vh] flex flex-col">
+                <div class="lg:w-1/3 bg-gray-800 rounded-lg m-4 mr-0 p-4 lg:min-h-[80vh] lg:max-h-[90vh] flex flex-col">
 
                 <!-- Minimized Upload Section -->
-                    <div class="bg-gray-800 rounded-lg p-4 mb-4 shadow-md">
-                        <div class="flex items-center py-3">
+
+                    <div
+                        class="flex-grow bg-gray-800 rounded-lg shadow-xl overflow-hidden"
+                    >
+                        <video
+                            v-if="videoSrc"
+                            :src="videoSrc"
+                            controls
+                            class="w-full h-full object-cover"
+                        ></video>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg mt-4 shadow-md">
+                        <div class="flex items-center pb-3">
                             <input
                                 type="file"
                                 class="hidden"
@@ -49,7 +60,7 @@
                             />
                             <label
                                 for="newFileInput"
-                                class="bg-gray-700 hover:bg-gray-600 py-3 rounded-lg cursor-pointer flex-grow text-center text-sm text-gray-300"
+                                class="bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg text-center cursor-pointer flex-grow text-white text-md"
                             >
                                 Choose Another Video
                             </label>
@@ -63,16 +74,6 @@
                                 Process
                             </button>
                         </div>
-                    </div>
-                    <div
-                        class="flex-grow bg-gray-800 rounded-lg shadow-xl overflow-hidden"
-                    >
-                        <video
-                            v-if="videoSrc"
-                            :src="videoSrc"
-                            controls
-                            class="w-full h-full object-cover"
-                        ></video>
                     </div>
                 </div>
 
