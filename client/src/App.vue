@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-blue-100 dark:bg-gray-900 flex flex-col">
-        <header class="relative bg-gray-800/80 backdrop-blur-sm text-white py-6 shadow-lg">
+        <header class="relative bg-gray-800/80 backdrop-blur-sm text-white py-5 shadow-lg">
             <h1 class="text-4xl md:text-5xl font-bold text-center tracking-tight">
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Recipe</span>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Rip</span>
