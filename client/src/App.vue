@@ -34,9 +34,9 @@
                 </div>
             </div>
 
-            <div v-if="videoSrc" class="min-h-[90vh] flex flex-col lg:flex-row">
+            <div v-if="videoSrc" class="min-h-[85vh] flex flex-col lg:flex-row">
                 <!-- Video Section -->
-                <div class="lg:w-1/3 bg-gray-800 rounded-lg m-4 mr-0 p-4 lg:min-h-[80vh] lg:max-h-[90vh] flex flex-col">
+                <div class="lg:w-1/3 bg-gray-800 rounded-lg m-4 mr-0 p-4 lg:min-h-[80vh] lg:max-h-[85vh] flex flex-col">
 
                 <!-- Minimized Upload Section -->
 
@@ -80,7 +80,7 @@
                 <!-- Recipe Section -->
 
                 <div
-                    class="lg:w-2/3 bg-gray-850 p-4 lg:min-h-[90vh] flex flex-col"
+                    class="lg:w-2/3 bg-gray-850 p-4 lg:min-h-[85vh] flex flex-col"
                 >
                     <div
                         class="bg-gray-800 rounded-lg shadow-xl p-8 h-full"
