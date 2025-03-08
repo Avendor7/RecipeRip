@@ -130,23 +130,29 @@ const file = ref<File | null>(null);
 const videoSrc = ref<string | null>(null);
 const loading = ref<boolean>(false);
 const textJob = ref<string>("");
+
 // Handle file input
 const handleFileInput = (event: Event) => {
     const target = event.target as HTMLInputElement;
     file.value = target.files?.[0] || null; // Get the first selected file, or set to null if no file selected
     videoSrc.value = URL.createObjectURL(file.value!);
 };
+
 const recipe = ref<string>("");
 
 let eventSource: EventSource | null = null;
 const progress = ref<number>(0);
 const clientId = ref<string>(crypto.randomUUID());
+
 const submit = async () => {
     if (!file.value) {
         alert("No file selected!");
         return;
     }
-
+    if(recipe.value){
+        recipe.value = "";
+        progress.value = 0;
+    }
     const formData = new FormData();
     formData.append("file", file.value);
     formData.append("clientId", clientId.value);
@@ -194,6 +200,7 @@ onMounted(() => {
             if (data.result && data.progress === 1) {
                 recipe.value = data.result;
                 loading.value = false;
+                clientId.value = crypto.randomUUID();
             }
             if (data.name == "process-text") {
                 textJob.value = data.jobId;
