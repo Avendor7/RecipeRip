@@ -57,10 +57,12 @@
                                 class="hidden"
                                 id="newFileInput"
                                 @change="handleFileInput"
+                                :disabled="loading"
                             />
                             <label
                                 for="newFileInput"
                                 class="bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg text-center cursor-pointer flex-grow text-white text-md"
+                                :class="{ 'opacity-50 cursor-not-allowed': loading }"
                             >
                                 Choose Another Video
                             </label>
